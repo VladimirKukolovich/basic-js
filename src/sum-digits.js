@@ -15,7 +15,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  function getSumOfDigits( n ) {
   return n.toString().split('')
 .map((i) => i*1).reduce((acc, item) => acc + item).toString().split('')
-.map((i) => i*1).reduce((acc, item) => acc + item)
+.map((i) => i*1).reduce((acc, item) => acc + item);
 }
 
 module.exports = {
