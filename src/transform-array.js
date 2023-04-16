@@ -14,29 +14,27 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
  function transform( arr ) {
-  throw new NotImplementedError('Not implemented');
-  if(arr = []) {
+  // throw new NotImplementedError('Not implemented');
+  if(arr === []) {
     return [];
   }
-  if ( arr  !== Array.isArray(arr)) throw new Error("'arr' parameter must be an instance of the Array!");
-  
-  let Arr = arr;
-   Arr.map((i, ind) => {
-    if(i === '--double-prev' && ind == 0 || i === '--discard-prev' && ind == 0) {
-       return Arr.slice(1);
+  const Arr = new Array().concat(arr);
+    if ( !Array.isArray(arr)) throw new Error("'arr' parameter must be an instance of the Array!");
+  const descriptor = ['--double-prev', '--discard-prev', '--double-next', '--discard-next', undefined];
+  Arr.map((i, ind) => {  
+        if(ind !== 0) {
+          i === '--double-prev'? Arr.splice(ind, 1, Arr[ind - 1]): i;
+          i === '--discard-prev'? Arr.splice((ind -1), 1, '--discard-prev'): i;
+        }
+        i === '--double-next'? Arr.splice(ind, 1, Arr[ind + 1] || Arr[ind]): i;
+        i === '--discard-next'? Arr.splice(ind + 1, 1, '--discard-prev'): i;
+      }
+      )
+      const  res = Arr.filter((i) => !descriptor.includes(i));
+return res;
     }
-    if(i === '--double-next' && ind + 1 == Arr.length || i === '--discard-next' && ind + 1 == Arr.length) {
-     return  Arr.slice(0, -1);
-   }
-  i === '--double-next'? Arr.splice(ind, 1, arr[ind + 1]): i;
-  i === '--double-prev'? Arr.splice(ind, 1, arr[ind - 1]): i;
-  i === '--discard-prev'? Arr.splice(ind - 1, 2): i;
-  i === '--discard-next'? Arr.splice(ind, 2): i;
-}
-)
-return Arr;//?
 
-}
+
 
 module.exports = {
   transform
